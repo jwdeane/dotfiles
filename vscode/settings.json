@@ -23,6 +23,7 @@
     "*.md": "mdx",
     ".prettierrc": "json"
   },
+  "git.confirmSync": false,
   "json.schemas": [
     {
       "fileMatch": [
