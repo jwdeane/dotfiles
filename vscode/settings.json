@@ -44,6 +44,8 @@
   "terminal.integrated.fontFamily": "Roboto Mono for Powerline, Operator Mono, Menlo, Monaco, 'Courier New', monospace",
   "terminal.integrated.scrollback": 10000,
   "typescript.suggest.paths": false, // Use Path Intellisense instead of the default autocompletion
+  "workbench.colorTheme": "Night Owl",
+  "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
   "workbench.startupEditor": "none",
   "yaml.format.enable": true,
