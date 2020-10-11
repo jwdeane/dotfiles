@@ -2,6 +2,7 @@
 
 * Auto Rename Tag [formulahendry.auto-rename-tag]
 * AWS Toolkit [amazonwebservices.aws-toolkit-vscode]
+* Bracket Pair Colorizer 2 [coenraads.bracket-pair-colorizer-2]
 * CloudFormation [aws-scripting-guy.cform]
 * Docker [ms-azuretools.vscode-docker]
 * DotENV [mikestead.dotenv]
