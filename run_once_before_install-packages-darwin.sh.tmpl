@@ -5,7 +5,6 @@ brew bundle --no-lock --file=/dev/stdin <<EOF
 brew "antigen"
 brew "awscli"
 brew "b2-tools"
-brew "chezmoi"
 brew "cloudflared"
 brew "diff-so-fancy"
 brew "fnm"
@@ -13,6 +12,7 @@ brew "gh"
 brew "git"
 brew "httpie"
 brew "jq"
+brew "mas"
 brew "node"
 brew "ripgrep"
 brew "terraform"
@@ -34,10 +34,18 @@ cask "brave-browser"
 cask "cloudflare/cloudflare/cf-terraforming"
 cask "figma"
 cask "firefox-developer-edition"
-cask "font-dejavu-sans-mono-for-powerline"
 cask "iterm2"
 cask "monitorcontrol"
 cask "rectangle"
+cask "simplenote"
 cask "visual-studio-code"
+
+# Fonts
+cask "font-dejavu-sans-mono-for-powerline"
+
+# Mac App Store
+mas '1Password for Safari', id: 1569813296
+mas 'Save to Pocket', id: 1477385213
+mas "Simplenote", id: 692867256
 EOF
 {{ end -}}
