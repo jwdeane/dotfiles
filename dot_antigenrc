@@ -1,5 +1,6 @@
 antigen use oh-my-zsh
 
+antigen bundle MichaelAquilina/zsh-you-should-use
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle z
 # syntax highlighting must be last
