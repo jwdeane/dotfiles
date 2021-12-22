@@ -1,0 +1,5 @@
+packadd! dracula
+syntax on
+colorscheme dracula
+
+let g:airline_powerline_fonts=1
