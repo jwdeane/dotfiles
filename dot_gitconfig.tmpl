@@ -1,9 +1,10 @@
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/jd/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	autocrlf = input
 [user]
 	name = James Deane
-	email = {{ .email }}
+	email = "25thhour+git@gmail.com"
 [interactive]
 	diffFilter = diff-so-fancy --patch
 [color]
@@ -21,3 +22,17 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[help]
+	autocorrect = 30
+[merge]
+	log = true
+[push]
+	default = simple
+	followTags = true
+[alias]
+	# View abbreviated SHA, description, and history graph of the latest 20 commits
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	# View the current working tree status using the short format
+	s = status -s
+	# Amend the currently staged files to the latest commit
+	amend = commit --amend --reuse-message=HEAD
