@@ -1,10 +1,10 @@
 [core]
-	excludesfile = /Users/jd/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	autocrlf = input
 [user]
 	name = James Deane
-	email = "25thhour+git@gmail.com"
+	email = {{ .email }}
 [interactive]
 	diffFilter = diff-so-fancy --patch
 [color]
