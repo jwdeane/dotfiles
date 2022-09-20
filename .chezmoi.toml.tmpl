@@ -1,4 +1,4 @@
-{{- $email := promptString "git email" -}}
+{{ $email := promptString "git email" -}}
 
 [data]
-email = {{ $email }}
+email = {{ $email | quote }}
