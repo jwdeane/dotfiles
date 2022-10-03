@@ -79,22 +79,23 @@ defaults write com.apple.dock launchanim -bool false
 defaults write com.apple.dock orientation left
 defaults write com.apple.dock show-recents -bool false
 
-for dockItemLabel in \
-    Launchpad \
-    FaceTime \
-    Maps \
-    Photos \
-    Contacts \
-    Reminders \
-    Podcasts \
-    TV \
-    News \
-    Numbers \
-    Keynote \
-    Pages \
-    "App Store" ; do
-    dockutil --find "$dockItemLabel" >/dev/null && dockutil --no-restart --remove "$dockItemLabel"
-done
+# Fails due to missing /usr/bin/python
+# for dockItemLabel in \
+#     Launchpad \
+#     FaceTime \
+#     Maps \
+#     Photos \
+#     Contacts \
+#     Reminders \
+#     Podcasts \
+#     TV \
+#     News \
+#     Numbers \
+#     Keynote \
+#     Pages \
+#     "App Store" ; do
+#     dockutil --find "$dockItemLabel" >/dev/null && dockutil --no-restart --remove "$dockItemLabel"
+# done
 
 # killall Dock
 
