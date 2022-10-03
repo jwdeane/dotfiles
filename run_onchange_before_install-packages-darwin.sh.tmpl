@@ -1,0 +1,75 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $taps := list
+    "cloudflare/cloudflare"
+    "homebrew/cask-fonts" -}}
+
+{{ $brews := list
+    "1password-cli"
+    "antigen"
+    "bat"
+    "cloudflared"
+    "curl"
+    "deno"
+    "diff-so-fancy"
+    "dockutil"
+    "flyctl"
+    "gh"
+    "git"
+    "go"
+    "httpie"
+    "hurl"
+    "jq"
+    "jwt-cli"
+    "mas"
+    "neovim"
+    "netlify-cli"
+    "rclone"
+    "ripgrep"
+    "rust"
+    "starship"
+    "terraform"
+    "tmux"
+    "tree"
+    "vim"
+    "volta"
+    "wget"
+    "yt-dlp"
+    "z"
+    "zsh" -}}
+
+{{ $casks := list
+    "1password"
+    "alfred"
+    "brave-browser"
+    "discord"
+    "cloudflare/cloudflare/cf-terraforming"
+    "figma"
+    "firefox-developer-edition"
+    "font-dejavu-sans-mono-nerd-font"
+    "font-hack-nerd-font"
+    "font-roboto-mono-nerd-font"
+    "iterm2"
+    "obsidian"
+    "postman"
+    "rectangle"
+    "visual-studio-code" -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($taps | sortAlpha | uniq) -}}
+tap "{{ . }}"
+{{ end -}}
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+
+# Mac App Store
+mas 'Save to Pocket', id: 1477385213
+EOF
+{{ end -}}
