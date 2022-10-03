@@ -1,0 +1,6 @@
+[".oh-my-zsh"]
+exact = true
+refreshPeriod = "168h"
+stripComponents = 1
+type = "archive"
+url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
