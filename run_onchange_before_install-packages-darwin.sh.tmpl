@@ -6,7 +6,8 @@ set -eufo pipefail
 {{ $taps := list
     "cloudflare/cloudflare"
     "homebrew/cask-fonts"
-    "homebrew/cask-versions" -}}
+    "homebrew/cask-versions"
+    "mike-engel/jwt-cli" -}}
 
 {{ $brews := list
     "antigen"
@@ -23,7 +24,7 @@ set -eufo pipefail
     "httpie"
     "hurl"
     "jq"
-    "mike-engel/jwt-cli/jwt-cli"
+    "jwt-cli"
     "mas"
     "neovim"
     "netlify-cli"
