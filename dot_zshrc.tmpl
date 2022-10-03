@@ -2,13 +2,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jd/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -61,7 +61,7 @@ ZSH_THEME="agnoster"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
- HIST_STAMPS="dd/mm/yyyy"
+HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -71,17 +71,15 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  brew
-  git
-  node
-)
+plugins=()
 
 source $ZSH/oh-my-zsh.sh
-source /usr/local/share/antigen/antigen.zsh
-antigen init ~/.antigenrc
+# source /usr/local/share/antigen/antigen.zsh
+# antigen init ~/.antigenrc
 
 # User configuration
+setopt histignorespace
+# export EDITOR=vim
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -107,6 +105,13 @@ antigen init ~/.antigenrc
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias flushDNS="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+{{- if lookPath "bat" }}
+alias cat=bat
+{{- end }}
+{{- if lookPath "exa" }}
+alias ls=exa
+{{- end }}
 
-eval "$(fnm env)"
+eval "$(starship init zsh)"
 
+{{/* vim: set filetype=zsh: */}}
