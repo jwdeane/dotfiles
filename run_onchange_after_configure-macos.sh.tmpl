@@ -15,7 +15,6 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-
 defaults write NSGlobalDomain AppleInterfaceStyle Dark
 defaults write NSGlobalDomain AppleLanguages -array en-AU
 defaults write NSGlobalDomain AppleLocale en_AU
@@ -28,11 +27,17 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticTextCompletionEnabled -bool false
 defaults write NSGlobalDomain NSLinguisticDataAssetsRequested -array en en_AU
 defaults write NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool false
+
 # Keep 'natural' scrolling
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Set computer name (as done via System Preferences → Sharing)
+sudo scutil --set ComputerName "tiny"
+sudo scutil --set HostName "tiny"
+sudo scutil --set LocalHostName "tiny"
 
 ###############################################################################
 # Finder                                                                      #
