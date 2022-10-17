@@ -1,0 +1,11 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+# iterm2 themes
+cd ~/Downloads
+curl -sO "https://raw.githubusercontent.com/dracula/iterm/master/Dracula.itermcolors"
+open Dracula.itermcolors
+rm Dracula.itermcolors
+{{ end -}}
