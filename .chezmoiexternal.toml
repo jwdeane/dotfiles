@@ -1,6 +1,18 @@
 [".oh-my-zsh"]
-exact = true
-refreshPeriod = "168h"
-stripComponents = 1
-type = "archive"
-url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
+    exact = true
+    refreshPeriod = "168h"
+    stripComponents = 1
+    type = "archive"
+    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
+[".vim/pack/plugins/start/vim-airline"]
+    exact = true
+    refreshPeriod = "168h"
+    stripComponents = 1
+    type = "archive"
+    url = "https://github.com/vim-airline/vim-airline/archive/master.tar.gz"
+[".vim/pack/themes/start/dracula"]
+    exact = true
+    refreshPeriod = "168h"
+    stripComponents = 1
+    type = "archive"
+    url = "https://github.com/dracula/vim/archive/master.tar.gz"
