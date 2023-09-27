@@ -1,0 +1,86 @@
+# vi: ft=make
+
+api_base := 'api.cloudflare.com/client/v4'
+auth_headers := '-H "x-auth-email: ${CLOUDFLARE_EMAIL}" -H "x-auth-key: ${CLOUDFLARE_API_KEY}"'
+logpull-range-start := `date -uv-1H "+%Y-%m-%dT%H:%M:%SZ"`
+logpull-range-end := `date -uv-1M "+%Y-%m-%dT%H:%M:%SZ"`
+
+_default:
+    @just --list
+
+# edit the global Justfile
+edit:
+    vim $HOME/.config/Justfile
+
+fmt:
+    just --fmt --unstable
+
+delete-zone zoneID:
+    @echo 'Deleting Zone {{ zoneID }}'
+    http DELETE 'https://api.cloudflare.com/client/v4/zones/{{ zoneID }}' {{ auth_headers }}
+
+ns-availability accountID:
+    @echo 'Checking Custom Nameservers availability for {{ accountID }}'
+    curl 'https://api.cloudflare.com/client/v4/accounts/{{ accountID }}/custom_ns/availability' {{ auth_headers }}
+
+list-ns accountID:
+    @echo 'Listing Custom Nameservers for {{ accountID }}'
+    curl 'https://api.cloudflare.com/client/v4/accounts/{{ accountID }}/custom_ns' {{ auth_headers }}
+
+delete-ns accountID NS:
+    @echo 'Listing Custom Nameservers for {{ accountID }}'
+    http DELETE 'https://api.cloudflare.com/client/v4/accounts/{{ accountID }}/custom_ns/{{ NS }}' {{ auth_headers }}
+
+pull-logs zoneid:
+    @echo 'Querying Logpull'
+    http -b 'https://api.cloudflare.com/client/v4/zones/{{ zoneid }}/logs/received?start={{ logpull-range-start }}&end={{ logpull-range-end }}' {{ auth_headers }} | jq .
+
+pull-rayid zoneid rayid:
+    @echo 'Fetching {{ rayid }} from Logpull'
+    http -b 'https://api.cloudflare.com/client/v4/zones/{{ zoneid }}/logs/rayids/{{ rayid }}?timestamps=rfc3339&fields=CacheReserveUsed' {{ auth_headers }} 
+
+start-tunnel:
+    sudo launchctl start com.cloudflare.cloudflared
+
+stop-tunnel:
+    sudo launchctl stop com.cloudflare.cloudflared
+
+update-cloudflare-ip-list:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+
+    CLOUDFLARE_IP_LIST='cloudflare-ip-list'
+    # get or create list
+    echo "Getting ${CLOUDFLARE_IP_LIST}"
+    # get ip list
+    echo "Fetching latest IP list from https://www.cloudflare.com/ips-v4"
+    CLOUDFLARE_IPS=$(http -b https://www.cloudflare.com/ips-v4)
+    echo ${CLOUDFLARE_IPS}
+
+    # update all list items
+
+#  http -b PUT https://api.cloudflare.com/client/v4/accounts/account_identifier/rules/lists/list_id/items \
+#  --header 'Content-Type: application/json' \
+#  {{ auth_headers }} \
+#  --data '[ {} ]'
+
+validate-expression EXPRESSION:
+    @echo "Validating {{ EXPRESSION }}"
+    curl 'https://api.cloudflare.com/client/v4/filters/validate-expr?expression={{ EXPRESSION }}' {{ auth_headers }} -s
+
+gcp-instant-instance:
+    @echo "Spinning up instance in GCP"
+    gcloud compute instances create jdeane-{{ uuid() }} --zone=australia-southeast1-a --machine-type=f1-micro --preemptible --tags=jdeane
+
+gcp-list-instances-by-tag TAGS="jdeane":
+    gcloud compute instances list --filter="tags.items={{ TAGS }}"
+
+gcp-ssh INSTANCE_NAME:
+    gcloud compute ssh {{ INSTANCE_NAME }} --zone=australia-southeast1-a
+
+gcp-delete-instance INSTANCE_NAME:
+    gcloud compute instances delete {{ INSTANCE_NAME }} --zone=australia-southeast1-a
+
+list-logpush-jobs ZONEID:
+    @echo "Listing Logpush jobs"
+    http -b 'https://api.cloudflare.com/client/v4/zones/{{ ZONEID }}/logpush/jobs' {{ auth_headers }}
