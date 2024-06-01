@@ -39,7 +39,7 @@ export BAT_THEME="Catppuccin-Mocha"
 eval "$(zoxide init zsh)"
 
 #--Plugins
-source /usr/local/share/antigen/antigen.zsh
+source $(brew --prefix)/share/antigen/antigen.zsh
 antigen init $HOME/.antigenrc
 
 #--History
