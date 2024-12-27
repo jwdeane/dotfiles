@@ -1,0 +1,28 @@
+mod? cloudflare
+
+_default:
+    @just -g --list --list-submodules
+
+# format closest justfile
+@fmt:
+    cd {{ invocation_directory() }}; just --fmt --unstable
+
+# native recipe chooser with fzf + bat syntax highlighting
+_chooser:
+    @just -g --choose --chooser "fzf --multi --preview 'just -g --show {} | bat --color=always -l just -pp'"
+
+# choose with gum filter
+_choose-with-gum:
+    @just -g --summary | tr ' ' '\n' | gum filter | xargs just -g
+
+# ⭐ better `choose` with fzf + bat preview for ALL recipes and submodules
+_choose-with-preview:
+    @just -g --summary | \
+        tr ' ' '\n' | \
+        sort -r | \
+        fzf --multi --preview 'just -g --show {} | bat --color=always -l just -pp' --preview-window=right:60% | \
+        xargs just -g
+
+# prune objects older than 24h not currently in use
+docker-prune:
+    docker system prune --all --force && docker volume prune --force
