@@ -1,4 +1,8 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """
+$env_var\
 $username\
 $hostname\
 $directory\
@@ -10,13 +14,17 @@ $line_break\
 $python\
 $character"""
 
+right_format = """
+$azure
+"""
+
 [directory]
 style = "blue"
 
 [character]
 success_symbol = "[❯](purple)"
 error_symbol = "[❯](red)"
-vicmd_symbol = "[❮](green)"
+vimcmd_symbol = "[❮](green)"
 
 [git_branch]
 format = "[$branch]($style)"
@@ -45,3 +53,13 @@ style = "yellow"
 format = "[$virtualenv]($style) "
 style = "bright-black"
 
+[env_var.CLOUDFLARE_VAULT_SESSION]
+variable = "CLOUDFLARE_VAULT_SESSION"
+format = "[cf](yellow):[$env_value]($style) "
+style = " bold #f48120"
+
+[azure]
+disabled = true
+format = 'on [$symbol($subscription)]($style) '
+symbol = '󰠅 '
+style = 'blue bold'
