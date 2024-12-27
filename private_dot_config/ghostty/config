@@ -1,0 +1,18 @@
+theme = catppuccin-mocha
+
+font-family =
+#font-size = 14
+
+adjust-cursor-thickness = 2
+
+macos-titlebar-proxy-icon = hidden
+window-title-font-family = Departure Mono
+
+window-padding-x = 14
+window-padding-y = 14,7
+window-padding-balance = true
+
+# keybinds
+#--quick terminal
+keybind = global:opt+`=toggle_quick_terminal
+quick-terminal-animation-duration = 0
