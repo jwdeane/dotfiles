@@ -1,0 +1,3 @@
+# don't use pubkeys for .local macos connections
+Host *.local
+  PubKeyAuthentication no
