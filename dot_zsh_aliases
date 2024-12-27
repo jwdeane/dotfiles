@@ -1,0 +1,70 @@
+alias reload="source $HOME/.zshrc && echo 'zshrc reloaded'"
+# alias mgmt
+alias ealias="$EDITOR $CHEZMOI_SOURCE_DIR/dot_zsh_aliases"
+alias salias="chezmoi apply $HOME/.zsh_aliases && source $HOME/.zsh_aliases && echo 'zsh_aliases reloaded'"
+# bat/cat
+alias cat="bat"
+alias ccat="/bin/cat"
+# chezmoi
+alias cz="chezmoi"
+alias czadd="chezmoi add"
+alias cza="chezmoi apply"
+alias czad="chezmoi apply --dry-run"
+alias czai="chezmoi apply --interactive"
+alias czav="chezmoi apply --verbose"
+alias cze="chezmoi edit --apply"
+# cf-vault
+alias gkey="cf-vault exec global"
+# digital ocean
+alias drops="doctl compute droplet list"
+# eza /ls
+alias l="eza"
+alias ll="eza -l --icons --git -a"
+alias llt="eza -lag -F --git -T -L 2 --group-directories-first"
+alias lla="ls -lah"
+# git
+alias gcmsg="git commit -m"
+alias gst="git status"
+# github copilot
+alias ghce="gh copilot explain"
+alias ghcs="gh copilot suggest"
+# just
+alias j="just -g"
+alias ji="just -g _choose-with-preview"
+alias jl="just -g --list --list-submodules"
+alias nv="nvim"
+alias vim="nvim"
+alias t="tree -L"
+# python
+alias py="python"
+alias pym="python -m"
+alias pyv="python -m venv .venv"
+alias pya="source .venv/bin/activate"
+alias pyp="python -m pip"
+alias pup="python -m pip install --upgrade pip"
+alias pfr="python -m pip freeze > requirements.txt"
+# rclone
+alias r2="rclone"
+alias r2l="rclone ls"
+alias r2t="rclone tree"
+alias r2up="rclone copyto"
+# tailscale
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+# terraform
+alias tf='terraform'
+alias tfa='terraform apply'
+alias tfaa='terraform apply -auto-approve'
+alias tfc='terraform console'
+alias tfd='terraform destroy'
+alias 'tfd!'='terraform destroy -auto-approve'
+alias tff='terraform fmt'
+alias tffr='terraform fmt -recursive'
+alias tfi='terraform init'
+alias tfir='terraform init -reconfigure'
+alias tfiu='terraform init -upgrade'
+alias tfo='terraform output'
+alias tfp='terraform plan'
+alias tfv='terraform validate'
+alias tfs='terraform state'
+alias tft='terraform test'
+alias tfsh='terraform show'

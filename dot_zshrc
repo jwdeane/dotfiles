@@ -1,46 +1,53 @@
-eval "$(brew shellenv)"
-FPATH="$(brew --prefix)/share/zsh/site-functions ${FPATH}"
+# ensure no (f)path duplicates
+typeset -gU path fpath
+
+path=(
+  $HOME/{,s}bin(N)
+  $HOME/.local/{,s}bin(N)
+  /opt/{homebrew,local}/{,s}bin(N)
+  /usr/local/{,s}bin(N)
+  $path
+)
+
+fpath=(
+  $(brew --prefix)/share/zsh/site-functions
+  ~/.config/zsh/completions
+  ~/.local/bin/scripts
+  $fpath
+)
+
+autoload -Uz compinit && compinit
+
+# Autoload all custom functions
+for script in "$HOME/.local/bin/scripts"/*(N:t); do
+  autoload -Uz "$HOME/.local/bin/scripts/${script}"
+done
+
+export EDITOR=nvim
+
+#--aliases
+source $HOME/.zsh_aliases
+
+#--deno
+path=("$HOME/.deno/bin" $path)
+
+#--go
+export GOPATH=$HOME/go
+
+#--volta
+export VOLTA_HOME="$HOME/.volta"
+path=("$VOLTA_HOME/bin" $path)
+
 #--fzf
-source <(fzf --zsh)
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-# fzf catppuccin colours https://github.com/catppuccin/fzf
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-# use fd for listing paths
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
-}
-# use fd to generate list for directory completion
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
-}
-# fzf previews for cd/env/**
-_fzf_comprun() {
-  local command=$1
-  shift
+source $HOME/.config/fzf/fzf.sh
 
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \$' {}" ;;
-    *)            fzf --preview "--preview 'bat -n --color=always --line-range :500 {}'" "$@" ;;
-  esac
-}
-
-#--bat
-export BAT_THEME="Catppuccin-Mocha"
-
-#--zoxide
-eval "$(zoxide init zsh)"
+#--1password
+eval "$(op completion zsh)"
+compdef _op op
 
 #--Plugins
-source $(brew --prefix)/share/antigen/antigen.zsh
-antigen init $HOME/.antigenrc
+source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+antidote load
 
 #--History
 HISTFILE="$HOME/.zsh_history"
@@ -51,13 +58,14 @@ setopt extended_history       # record timestamps in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first
 setopt hist_ignore_dups       # ignore duplicated commands
 setopt hist_ignore_space      # ignore commands that start with space
-#setopt hist_verify            # show command before running
 setopt share_history          # share history between sessions
+#setopt hist_verify            # show command before running
 
-#--Imports
-source $HOME/.config/aliases.sh
-source $HOME/.config/cloudflare.sh
-source $HOME/.config/functions.sh
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+#--zoxide
+eval "$(zoxide init zsh)"
 
 #--END
 eval "$(starship init zsh)"
