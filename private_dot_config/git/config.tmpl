@@ -1,12 +1,15 @@
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.config/git/ignore
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	autocrlf = input
 [user]
 	name = James Deane
 	email = {{ .email }}
+	signingkey = {{ .signingkey }}
 [interactive]
 	diffFilter = diff-so-fancy --patch
+[diff]
+	colorMoved = default
 [color]
 	ui = true
 [color "diff-highlight"]
@@ -23,22 +26,36 @@
 	new = green bold
 	whitespace = red reverse
 [help]
-	autocorrect = 30
+	autocorrect = immediate
 [merge]
 	log = true
+	autoStash = true
+	conflictstyle = diff3
 [push]
-	default = simple
+	default = current
 	followTags = true
+	autoSetupRemote = true
 [alias]
+	# View the commit history graph
+	ds = diff --staged
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	# View the current working tree status using the short format
-	s = status -s
+	st = status -s
 	# Amend the currently staged files to the latest commit
 	amend = commit --amend --reuse-message=HEAD
+	# squash and rebase a branch https://adamj.eu/tech/2022/03/25/how-to-squash-and-rebase-a-git-branch/
+	remain = rebase --keep-base -i main
 [init]
 	defaultBranch = main
 [branch]
-	autoSetupMerge = always
-
-{{/* vim: set filetype=toml: */}}
+		#autoSetupMerge = always
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
+[rebase]
+	autoStash = true
+	updateRefs = true
