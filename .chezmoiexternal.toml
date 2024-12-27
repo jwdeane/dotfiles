@@ -1,18 +1,13 @@
-[".oh-my-zsh"]
-    exact = true
-    refreshPeriod = "168h"
-    stripComponents = 1
-    type = "archive"
-    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
-[".vim/pack/plugins/start/vim-airline"]
-    exact = true
-    refreshPeriod = "168h"
-    stripComponents = 1
-    type = "archive"
-    url = "https://github.com/vim-airline/vim-airline/archive/master.tar.gz"
-[".vim/pack/themes/start/dracula"]
-    exact = true
-    refreshPeriod = "168h"
-    stripComponents = 1
-    type = "archive"
-    url = "https://github.com/dracula/vim/archive/master.tar.gz"
+# bat
+[".config/bat/syntaxes/just_sublime"]
+type = "git-repo"
+url = "https://github.com/nk9/just_sublime.git"
+
+[".config/bat/themes/Catppuccin Mocha.tmTheme"]
+type = "file"
+url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme"
+
+# tmux
+[".tmux/plugins/tpm"]
+type = "git-repo"
+url = "https://github.com/tmux-plugins/tpm.git"
