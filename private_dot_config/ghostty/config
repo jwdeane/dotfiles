@@ -1,4 +1,5 @@
 theme = catppuccin-mocha
+config-file = theme/catppuccin-mocha
 
 font-family =
 #font-size = 14
@@ -6,6 +7,7 @@ font-family =
 adjust-cursor-thickness = 2
 
 macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs
 window-title-font-family = Departure Mono
 
 window-padding-x = 14
