@@ -6,6 +6,8 @@ font-family =
 
 adjust-cursor-thickness = 2
 
+macos-option-as-alt = true
+
 macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = tabs
 window-title-font-family = Departure Mono
