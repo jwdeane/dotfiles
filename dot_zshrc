@@ -58,8 +58,8 @@ setopt extended_history       # record timestamps in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first
 setopt hist_ignore_dups       # ignore duplicated commands
 setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command before running
 setopt share_history          # share history between sessions
-#setopt hist_verify            # show command before running
 
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
