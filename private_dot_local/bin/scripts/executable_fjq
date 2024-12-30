@@ -1,0 +1,1 @@
+echo '' | fzf -q '.' --print-query --preview "cat ${1} | jq {q}" --preview-window=up,90% --height=90%
