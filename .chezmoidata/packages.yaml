@@ -35,6 +35,7 @@ packages:
       - "just"
       - "jq"
       - "jwt-cli"
+      - "lazygit"
       - "lima"
       - "llm"
       - "marksman"
