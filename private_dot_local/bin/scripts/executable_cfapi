@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 cf-vault exec global -- \
   bash -c "curlie https://api.cloudflare.com/client/v4/$1 \
   x-auth-email:\$CLOUDFLARE_EMAIL \
