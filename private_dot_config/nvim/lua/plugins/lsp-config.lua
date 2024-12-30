@@ -16,8 +16,7 @@ return {
           "jqls",
           "lua_ls",
           "marksman", -- Markdown
-          "ruff_lsp",
-          "taplo", -- TOML
+          "taplo",    -- TOML
           "terraformls",
           "tflint",
           "ts_ls",
@@ -43,7 +42,6 @@ return {
         },
       })
       lspconfig.marksman.setup({})
-      lspconfig.ruff_lsp.setup({})
       lspconfig.taplo.setup({})
       lspconfig.terraformls.setup({})
       lspconfig.tflint.setup({})
