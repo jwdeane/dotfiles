@@ -1,1 +1,32 @@
-echo '' | fzf -q '.' --print-query --preview "cat ${1} | jq {q}" --preview-window=up,90% --height=90%
+# fjq - Interactive JSON Query Explorer
+# 
+# This function provides an interactive interface for exploring JSON data using jq and fzf.
+# It reads JSON input from stdin, stores it temporarily, and opens an fzf interface where
+# you can type jq queries and see the results in real-time.
+#
+# Usage:
+#   <command generating JSON> | fjq
+#
+# Features:
+# - Uses fzf's preview window to show query results
+# - Live preview updates as you type the jq query
+# - Cleans up temporary files after use
+# - Returns the query on exit
+#
+# Dependencies:
+# - fzf: Fuzzy finder tool
+# - jq: JSON processor
+
+local json_input=$(mktemp)
+trap "rm -f '$json_input'" EXIT
+
+cat > "$json_input"
+
+echo '' | fzf \
+  --query '.' \
+  --print-query \
+  --preview "cat $json_input | jq --color-output {q}" \
+  --preview-window=up,90% --height=90% \
+  --header 'Type jq query | Enter: return query | Esc: exit' \
+  --no-info
+
