@@ -42,8 +42,13 @@ path=("$VOLTA_HOME/bin" $path)
 source $HOME/.config/fzf/fzf.sh
 
 #--1password
-eval "$(op completion zsh)"
-compdef _op op
+# FIXME:
+#   commented out `op completion` as with this in place, the terminal prompts to allow disk access EVERY TIME it's opened
+#   …and it's annoying. This looks to be due to macos security "protecting" the ~/Library/Group Containers folder.
+#   Full Disk Access is NOT the right way to solve this (System Preferences > Security & Privacy > Privacy).
+#   Switching to SSH_AUTH_SOCK, instead of ~/.1password/agent.sock also doesn't help.
+# eval "$(op completion zsh)"
+# compdef _op op
 
 #--Plugins
 source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
