@@ -4,6 +4,7 @@ vim.o.mouse = "a"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.undofile = true
+vim.o.wrap = false
 -- leader
 vim.g.mapleader = " "
 -- search
@@ -20,4 +21,4 @@ vim.o.cursorline = true
 vim.o.number = true
 vim.o.relativenumber = true
 -- always show sign column to avoid visual jump
-vim.o.signcolumn= "yes"
+vim.o.signcolumn = "yes"
