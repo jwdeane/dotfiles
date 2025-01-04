@@ -28,6 +28,9 @@ export EDITOR=nvim
 #--aliases
 source $HOME/.zsh_aliases
 
+#--cf-vault
+source $HOME/.config/cf-vault/cf-vault.sh
+
 #--deno
 path=("$HOME/.deno/bin" $path)
 
