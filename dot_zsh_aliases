@@ -15,6 +15,7 @@ alias czav="chezmoi apply --verbose"
 alias cze="chezmoi edit"
 alias czea="chezmoi edit --apply"
 # cf-vault
+alias cfv="cf-vault list | fzf --header-lines 1 --reverse | cut -wf 1"
 alias gkey="cf-vault exec global"
 # digital ocean
 alias drops="doctl compute droplet list"
