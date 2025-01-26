@@ -1,4 +1,17 @@
+# cfapi - Cloudflare API request script
+#
+# Execute Cloudflare API calls authenticated via a cf-vault global profile.
+#
+# Usage:
+#   ./cfapi <endpoint> [additional curl options]
+#
+# Dependencies:
+#   - cf-vault: Cloudflare credential management tool
+
+ENDPOINT=$1
+shift
+
 cf-vault exec global -- \
-  bash -c "curlie https://api.cloudflare.com/client/v4/$1 \
-  x-auth-email:\$CLOUDFLARE_EMAIL \
-  x-auth-key:\$CLOUDFLARE_API_KEY"
+  bash -c "curl -s https://api.cloudflare.com/client/v4/$ENDPOINT \
+  -H \"x-auth-email:\$CLOUDFLARE_EMAIL\" \
+  -H \"x-auth-key:\$CLOUDFLARE_API_KEY\" $@"
