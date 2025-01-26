@@ -5,6 +5,7 @@ packages:
       - "jacobbednarz/tap"
       - "mike-engel/jwt-cli"
     brews:
+      - "abcde"
       - "ansible"
       - "antidote"
       - "awscli"
@@ -83,6 +84,7 @@ packages:
       - "ghostty"
       - "mockoon"
       - "obsidian"
+      - "ollama"
       - "orbstack"
       - "raycast"
       - "rectangle"
