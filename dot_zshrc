@@ -12,15 +12,15 @@ path=(
 fpath=(
   $(brew --prefix)/share/zsh/site-functions
   ~/.config/zsh/completions
-  ~/.local/bin/scripts
+  ~/.zsh/functions
   $fpath
 )
 
 autoload -Uz compinit && compinit
 
 # Autoload all custom functions
-for script in "$HOME/.local/bin/scripts"/*(N:t); do
-  autoload -Uz "$HOME/.local/bin/scripts/${script}"
+for fn in "$HOME/.zsh/functions"/*(N:t); do
+  autoload -Uz "$HOME/.zsh/functions/${fn}"
 done
 
 export EDITOR=nvim
