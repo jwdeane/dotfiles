@@ -3,7 +3,11 @@
 # Execute Cloudflare API calls authenticated via a cf-vault global profile.
 #
 # Usage:
-#   ./cfapi <endpoint> [additional curl options]
+#   cfapi <endpoint> [additional curl options]
+#
+# Example:
+#   cfapi accounts # list accounts
+#   cfapi zones?account.id=<account> # list zones in <account>
 #
 # Dependencies:
 #   - cf-vault: Cloudflare credential management tool
