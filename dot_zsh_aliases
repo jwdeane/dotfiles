@@ -58,6 +58,8 @@ alias gs="git status --short -b"
 alias gsh="git log --oneline --color=always --decorate | fzf --ansi --reverse --height ~100% --preview 'echo {} | cut -c -7 | xargs -o git show --color=always --pretty=oneline --abbrev-commit'"
 alias gsf="git status --short -b | fzf --preview 'git diff --color=always {2}' --preview-window=70%,border-double,top"
 alias gst="git status"
+# github gh
+alias ghweb="gh repo view --web"
 # github copilot
 alias ghce="gh copilot explain"
 alias ghcs="gh copilot suggest"
