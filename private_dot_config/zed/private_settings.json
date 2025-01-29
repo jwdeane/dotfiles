@@ -1,0 +1,69 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "assistant": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4o"
+    },
+    "version": "2"
+  },
+  "cursor_shape": "bar",
+  "theme": "Ayu Dark",
+  "telemetry": {
+    "metrics": false
+  },
+  "buffer_font_size": 13,
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font"
+  },
+  "hard_tabs": false,
+  "tab_size": 2,
+  "file_types": {
+    "Just": ["*.just"],
+    "Shell Script": ["**/dot_z*", "**/executable_*"]
+  },
+  "collaboration_panel": { "button": false },
+  "notification_panel": { "button": false },
+  "languages": {
+    "Markdown": {
+      "format_on_save": "on"
+    },
+    "Just": {
+      "tab_size": 4
+    },
+    "Python": {
+      "language_servers": ["pyright", "ruff"],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_actions": {
+            "source.organizeImports.ruff": true,
+            "source.fixAll.ruff": true
+          }
+        },
+        {
+          "language_server": {
+            "name": "ruff"
+          }
+        }
+      ]
+    }
+  },
+  "lsp": {
+    "pyright": {
+      "settings": {
+        "python": {
+          "pythonPath": ".venv/bin/python"
+        }
+      }
+    }
+  },
+  "project_panel": { "dock": "left" }
+}
