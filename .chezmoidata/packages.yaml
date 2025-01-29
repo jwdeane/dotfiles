@@ -29,6 +29,7 @@ packages:
       - "gh"
       - "git"
       - "git-delta"
+      - "glow"
       - "go"
       - "gum"
       - "helix"
