@@ -7,7 +7,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 if ! command -v chezmoi &>/dev/null; then
-  brew install chezmoi
+  brew install chezmoi 1password 1password-cli
 fi
 
 exec chezmoi init --apply jwdeane
