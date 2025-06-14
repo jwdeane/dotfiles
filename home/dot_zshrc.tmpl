@@ -1,0 +1,94 @@
+export EDITOR=nvim
+
+# ensure no (f)path duplicates
+typeset -gU path fpath
+
+path=(
+  $HOME/{,s}bin(N)
+  $HOME/.local/{,s}bin(N)
+  $HOME/go/bin(N)
+  /opt/{homebrew,local}/{,s}bin(N)
+  /usr/local/{,s}bin(N)
+  $path
+)
+
+fpath=(
+  $(brew --prefix)/share/zsh/site-functions
+  ~/.config/zsh/completions
+  $fpath
+)
+
+autoload -Uz compinit && compinit
+
+# autoload custom functions
+if [[ -d "$HOME/.config/zsh/functions" ]]; then
+  for fn in "$HOME/.config/zsh/functions"/*(N:t); do
+    autoload -Uz "$HOME/.config/zsh/functions/${fn}"
+  done
+fi
+
+#--aliases
+if [[ -f "$HOME/.config/zsh/aliases" ]]; then
+  source "$HOME/.config/zsh/aliases"
+fi
+
+#--cf-vault
+if [[ -f "$HOME/.config/cf-vault/cf-vault.sh" ]]; then
+  source "$HOME/.config/cf-vault/cf-vault.sh"
+fi
+
+#--deno
+path=("$HOME/.deno/bin" $path)
+
+#--go
+export GOPATH="$HOME/go"
+path=("$GOPATH/bin" $path)
+
+#--history
+HISTFILE="$HOME/.zsh_history"
+HIST_STAMPS="yyyy-mm-dd"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt extended_history       # record timestamps in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first
+setopt hist_ignore_dups       # ignore duplicated commands
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command before running
+setopt share_history          # share history between sessions
+
+#--volta
+export VOLTA_HOME="$HOME/.config/volta"
+path=("$VOLTA_HOME/bin" $path)
+
+#--fzf
+if [[ -f "$HOME/.config/fzf/fzf.sh" ]]; then
+  source "$HOME/.config/fzf/fzf.sh"
+fi
+
+#--1password
+if [[ -S "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" ]]; then
+  export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+fi
+# FIXME:
+#   commented out `op completion` as with this in place, the terminal prompts to allow disk access EVERY TIME it's opened
+#   …and it's annoying. This looks to be due to macos security "protecting" the ~/Library/Group Containers folder.
+#   Full Disk Access is NOT the right way to solve this (System Preferences > Security & Privacy > Privacy).
+#   Switching to SSH_AUTH_SOCK, instead of ~/.1password/agent.sock also doesn't help.
+# eval "$(op completion zsh)"
+# compdef _op op
+
+#--antidote
+if [[ -f "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh" ]]; then
+  source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+  antidote load
+fi
+
+#--zoxide
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+#--END
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
