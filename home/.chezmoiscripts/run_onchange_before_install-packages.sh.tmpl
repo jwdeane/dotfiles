@@ -1,0 +1,103 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $taps := list
+    "cloudflare/cloudflare"
+    "jacobbednarz/tap"
+    "mike-engel/jwt-cli" -}}
+
+{{ $brews := list
+    "ansible"
+    "antidote"
+    "awscli"
+    "bat"
+    "cf-terraforming"
+    "cf-vault"
+    "cloudflared"
+    "curl"
+    "curlie"
+    "deno"
+    "diff-so-fancy"
+    "doctl"
+    "doggo"
+    "duckdb"
+    "eza"
+    "fd"
+    "ffmpeg"
+    "flyctl"
+    "fzf"
+    "gh"
+    "git"
+    "git-delta"
+    "glow"
+    "go"
+    "gum"
+    "helix"
+    "hey"
+    "hurl"
+    "just"
+    "jq"
+    "jwt-cli"
+    "lazygit"
+    "lima"
+    "marksman"
+    "mas"
+    "neovim"
+    "rclone"
+    "ripgrep"
+    "rustup"
+    "sd"
+    "shellcheck"
+    "slides"
+    "starship"
+    "telnet"
+    "terraform-ls"
+    "tfenv"
+    "tmux"
+    "tree"
+    "vim"
+    "volta"
+    "wget"
+    "xh"
+    "yt-dlp"
+    "zoxide"
+    "zsh" -}}
+
+{{ $casks := list
+    "1password"
+    "1password-cli"
+    "alfred"
+    "daisydisk"
+    "discord"
+    "figma"
+    "firefox@developer-edition"
+    "font-departure-mono"
+    "font-dejavu-sans-mono-nerd-font"
+    "font-geist-mono"
+    "font-hack-nerd-font"
+    "font-jetbrains-mono-nerd-font"
+    "font-monaspace"
+    "font-roboto-mono-nerd-font"
+    "font-space-grotesk"
+    "ghostty"
+    "hammerspoon"
+    "ice"
+    "karabiner-elements"
+    "obsidian"
+    "orbstack"
+    "raycast"
+    "rectangle"
+    "tailscale" -}}
+
+brew bundle --file=/dev/stdin <<EOF
+{{ range ($taps | sortAlpha | uniq) -}}
+tap "{{ . }}"
+{{ end -}}
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
