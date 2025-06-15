@@ -1,5 +1,5 @@
-{{ if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env bash
+{{ if eq .chezmoi.os "darwin" -}}
   {{- $computerName := output "scutil" "--get" "ComputerName" | trim -}}
 
   {{ if (and .set_hostname (not (eq $computerName .hostname))) }}
