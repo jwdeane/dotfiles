@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # create deno bin directory
 mkdir -p ~/.deno/bin
 
