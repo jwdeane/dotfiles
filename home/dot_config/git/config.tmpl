@@ -1,0 +1,64 @@
+[core]
+	excludesfile = ~/.config/git/ignore
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	autocrlf = input
+[user]
+	name = James Deane
+	email = {{ .email }}
+	signingkey = {{ onepasswordRead "op://Private/git_signing_key/public key" }}
+[interactive]
+	diffFilter = diff-so-fancy --patch
+[diff]
+	colorMoved = default
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[help]
+	autocorrect = immediate
+[merge]
+	log = true
+	autoStash = true
+	conflictstyle = diff3
+[push]
+	default = current
+	followTags = true
+	autoSetupRemote = true
+[alias]
+	# View the commit history graph
+	ds = diff --staged
+	# fixup - https://jordanelver.co.uk/blog/2020/06/04/fixing-commits-with-git-commit-fixup-and-git-rebase-autosquash/
+	fixup = "!git log -n 50 --oneline --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+	# View abbreviated SHA, description, and history graph of the latest 20 commits
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	# View the current working tree status using the short format
+	st = status -s
+	# Amend the currently staged files to the latest commit
+	amend = commit --amend --reuse-message=HEAD
+	# squash and rebase a branch https://adamj.eu/tech/2022/03/25/how-to-squash-and-rebase-a-git-branch/
+	remain = rebase --keep-base -i main
+[init]
+	defaultBranch = main
+[branch]
+    # autoSetupMerge = always
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
+[rebase]
+	autosquash = true
+	autoStash = true
+	updateRefs = true
