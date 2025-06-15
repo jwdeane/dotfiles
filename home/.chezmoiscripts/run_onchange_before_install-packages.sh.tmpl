@@ -82,13 +82,14 @@ set -eufo pipefail
     "font-space-grotesk"
     "ghostty"
     "hammerspoon"
-    "ice"
+    "jordanbaird-ice"
     "karabiner-elements"
     "obsidian"
     "orbstack"
     "raycast"
     "rectangle"
-    "tailscale" -}}
+    "tailscale"
+    "zed" -}}
 
 brew bundle --file=/dev/stdin <<EOF
 {{ range ($taps | sortAlpha | uniq) -}}
