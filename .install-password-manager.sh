@@ -5,7 +5,7 @@ type op >/dev/null 2>&1 && exit
 
 case "$(uname -s)" in
 Darwin)
-  brew install 1password 1password-cli
+  /opt/homebrew/bin/brew install 1password 1password-cli
   ;;
 # Linux)
 #     # commands to install password-manager-binary on Linux
