@@ -12,7 +12,7 @@ sudo -v
 # Misc                                                                        #
 ###############################################################################
 
-mkdir ~/Desktop/screenshots
+[ -d ~/Desktop/screenshots ] || mkdir ~/Desktop/screenshots
 defaults write com.apple.screencapture location -string "~/Desktop/screenshots" && killall SystemUIServer
 
 ###############################################################################
