@@ -9,6 +9,13 @@ osascript -e 'tell application "System Preferences" to quit'
 sudo -v
 
 ###############################################################################
+# Misc                                                                        #
+###############################################################################
+
+mkdir ~/Desktop/screenshots
+defaults write com.apple.screencapture location -string "~/Desktop/screenshots" && killall SystemUIServer
+
+###############################################################################
 # Finder                                                                      #
 ###############################################################################
 
