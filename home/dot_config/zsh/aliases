@@ -1,0 +1,103 @@
+alias reload="source $HOME/.zshrc && echo 'zshrc reloaded'"
+# alias mgmt
+alias ealias="$EDITOR $CHEZMOI_SOURCE_DIR/dot_config/zsh/aliases"
+alias salias="chezmoi apply $HOME/.config/zsh/aliases && source $HOME/.config/zsh/aliases && echo 'aliases reloaded'"
+# bat/cat
+alias cat="bat"
+alias ccat="/bin/cat"
+# chezmoi
+alias cz="chezmoi"
+alias czadd="chezmoi add"
+alias cza="chezmoi apply"
+alias czad="chezmoi apply --dry-run"
+alias czai="chezmoi apply --interactive"
+alias czav="chezmoi apply --verbose"
+alias cze="chezmoi edit"
+alias czea="chezmoi edit --apply"
+# cf-vault
+alias cfv="cf-vault list | fzf --header-lines 1 --reverse | cut -wf 1"
+alias gkey="cf-vault exec global"
+# digital ocean
+alias drops="doctl compute droplet list"
+# env
+alias genv="env | rg -i"
+# eza /ls
+alias l="eza"
+alias ll="eza -l --icons --git -a"
+alias llt="eza -lag -F --git -T -L 2 --group-directories-first"
+alias lla="ls -lah"
+# file mgmt
+alias ln="ln -i"
+alias mkdir="mkdir -pv"
+alias mv="mv -i"
+alias rm="rm -i"
+# git
+alias lg="lazygit"
+alias ga="git add"
+alias gaa="git add --all"
+alias gam="git commit --amend --reuse-message=HEAD"
+alias gap="git add --patch"
+alias gc="git commit --verbose"
+alias gca="git commit --amend"
+alias gcan="git commit --amend --no-edit"
+alias gcmsg="git commit -m"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gds="git diff --staged"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+alias gfo="git fetch origin"
+alias gfu="git fetch upstream"
+alias gl="git log --pretty=oneline -n 20 --graph --abbrev-commit"
+alias gll="git log --oneline -n 20 --graph --color=always --decorate | fzf --ansi --reverse --height ~100%"
+alias gls="git log --stat"
+alias gp="git push"
+alias gpf="git push --force"
+alias gres="git restore --staged"
+alias gs="git status --short -b"
+alias gsh="git log --oneline --color=always --decorate | fzf --ansi --reverse --height ~100% --preview 'echo {} | cut -c -7 | xargs -o git show --color=always --pretty=oneline --abbrev-commit'"
+alias gsf="git status --short -b | fzf --preview 'git diff --color=always {2}' --preview-window=70%,border-double,top"
+alias gst="git status"
+# github copilot
+alias ghce="gh copilot explain"
+alias ghcs="gh copilot suggest"
+# just
+alias j="just -g"
+alias ji="just -g _choose-with-preview"
+alias jig="just -g _choose-with-gum"
+alias jl="just -g --list --list-submodules"
+alias nv="nvim"
+alias vim="nvim"
+alias t="tree -L"
+# python
+#--unlikely to be used since uv now preferred
+alias py="python"
+alias pym="python -m"
+alias pyv="python -m venv .venv"
+alias pya="source .venv/bin/activate"
+alias pyp="python -m pip"
+alias pup="python -m pip install --upgrade pip"
+alias pfr="python -m pip freeze > requirements.txt"
+# rclone
+alias r2="rclone"
+alias r2l="rclone ls"
+alias r2t="rclone tree"
+alias r2up="rclone copyto"
+# terraform
+alias tf='terraform'
+alias tfa='terraform apply'
+alias tfaa='terraform apply -auto-approve'
+alias tfc='terraform console'
+alias tfd='terraform destroy'
+alias 'tfd!'='terraform destroy -auto-approve'
+alias tff='terraform fmt'
+alias tffr='terraform fmt -recursive'
+alias tfi='terraform init'
+alias tfir='terraform init -reconfigure'
+alias tfiu='terraform init -upgrade'
+alias tfo='terraform output'
+alias tfp='terraform plan'
+alias tfv='terraform validate'
+alias tfs='terraform state'
+alias tft='terraform test'
+alias tfsh='terraform show'
