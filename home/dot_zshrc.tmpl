@@ -84,6 +84,13 @@ if [[ -f "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh" ]]; then
   antidote load
 fi
 
+#--mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+  # autoload .env
+  export MISE_ENV_FILE=.env
+fi
+
 #--zoxide
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
