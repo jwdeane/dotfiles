@@ -1,0 +1,32 @@
+# jqsum - Recursively truncate arrays to first element only
+#
+# This function implements the jq expression: 'def w: arrays |= .[:1]|iterables[] |= w; w'
+# Source: https://news.ycombinator.com/item?id=44640823
+#
+# What it does:
+# - Defines a recursive function 'w' that processes JSON data
+# - For any array encountered, keeps only the first element (.[:1])
+# - Recursively applies this transformation to all nested iterables (arrays/objects)
+# - Effectively "summarizes" complex nested JSON by showing structure with minimal data
+#
+# Usage: cat data.json | jqsum
+# 
+# Example - API response with large arrays:
+# Input:
+#   {
+#     "users": [
+#       {"id": 1, "name": "Alice", "posts": [{"title": "Hello"}, {"title": "World"}]},
+#       {"id": 2, "name": "Bob", "posts": [{"title": "Test"}, {"title": "More"}]},
+#       {"id": 3, "name": "Carol", "posts": []}
+#     ],
+#     "metadata": {"total": 3, "tags": ["user", "post", "api"]}
+#   }
+# 
+# Output:
+#   {
+#     "users": [{"id": 1, "name": "Alice", "posts": [{"title": "Hello"}]}],
+#     "metadata": {"total": 3, "tags": ["user"]}
+#   }
+jqsum() {
+    jq 'def w: arrays |= .[:1]|iterables[] |= w; w'
+}
