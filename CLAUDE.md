@@ -30,7 +30,7 @@ This is a personal dotfiles repository managed with [chezmoi](https://www.chezmo
 ### Directory Layout
 - `home/` - Contains dotfiles that will be installed to the home directory
 - `home/.chezmoiscripts/` - Contains scripts that run during chezmoi operations
-- `home/dot_config/` - Configuration files for various applications
+- `home/dot_config/` - Configuration files for various applications and is the target state of `~/.config`
 - `.chezmoiroot` - Specifies that dotfiles are installed relative to `home/`
 
 ### Template System
