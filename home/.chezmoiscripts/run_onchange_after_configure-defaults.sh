@@ -13,7 +13,7 @@ sudo -v
 ###############################################################################
 
 [ -d ~/Desktop/screenshots ] || mkdir ~/Desktop/screenshots
-defaults write com.apple.screencapture location -string "~/Desktop/screenshots" && killall SystemUIServer
+defaults write com.apple.screencapture location -string "~/Desktop/screenshots"
 
 ###############################################################################
 # Finder                                                                      #
@@ -125,5 +125,6 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 killall Dock
 killall Finder
+killall SystemUIServer
 
 echo "✨ defaults setup complete."

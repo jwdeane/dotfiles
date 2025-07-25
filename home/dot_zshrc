@@ -17,6 +17,7 @@ path=(
 fpath=(
   $(brew --prefix)/share/zsh/site-functions
   ~/.config/zsh/completions
+  ~/.config/zsh/functions
   $fpath
 )
 
@@ -25,7 +26,7 @@ autoload -Uz compinit && compinit
 # autoload custom functions
 if [[ -d "$HOME/.config/zsh/functions" ]]; then
   for fn in "$HOME/.config/zsh/functions"/*(N:t); do
-    autoload -Uz "$HOME/.config/zsh/functions/${fn}"
+    autoload -Uz "$fn"
   done
 fi
 
@@ -90,6 +91,12 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
   # autoload .env
   export MISE_ENV_FILE=.env
+fi
+
+#--uv
+if command -v uv >/dev/null 2>&1; then
+  eval "$(uv generate-shell-completion zsh)"
+  eval "$(uvx --generate-shell-completion zsh)"
 fi
 
 #--zoxide
