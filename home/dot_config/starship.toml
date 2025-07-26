@@ -8,11 +8,12 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
+$env_var\
 $line_break\
 $python\
 $character"""
 
-right_format="""$cmd_duration"""
+right_format = """$cmd_duration"""
 
 # Inserts a blank line between shell prompts
 add_newline = true
@@ -56,3 +57,10 @@ style = "yellow"
 [python]
 format = "[$virtualenv]($style) "
 style = "bright-black"
+
+[env_var.CLOUDFLARE_VAULT_SESSION]
+default = ""
+variable = "CLOUDFLARE_VAULT_SESSION"
+format = "([$symbol$env_value]($style)) "
+symbol = "⛅"
+style = "yellow"
