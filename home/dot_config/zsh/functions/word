@@ -1,0 +1,12 @@
+# word - lookup words in macos dictionary
+#
+# Usage:
+#   word <query>
+#
+# ⇥ open in dictionary
+# ⏎ copy to clipboard
+word() {
+    rg $1 /usr/share/dict/words |
+    fzf --bind 'tab:execute-silent:(open "dict://{}")' --header '⇥ open in dictionary | ⏎ copy to clipboard' |
+    tr -d '[:blank:]\n' | pbcopy
+}
