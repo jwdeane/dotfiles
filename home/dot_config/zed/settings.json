@@ -12,6 +12,7 @@
   },
   "icon_theme": "Catppuccin Mocha",
   "agent": {
+    "default_profile": "write",
     "play_sound_when_agent_done": true,
     "inline_assistant_model": {
       "provider": "copilot_chat",
