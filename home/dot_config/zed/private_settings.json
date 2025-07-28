@@ -27,6 +27,7 @@
   "telemetry": {
     "metrics": false
   },
+  "show_whitespaces": "all",
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "ui_font_size": 13,
   "buffer_font_size": 13,
@@ -40,6 +41,19 @@
     "mode": "system",
     "light": "One Light",
     "dark": "Catppuccin Mocha"
+  },
+  "languages": {
+    "Shell Script": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          "arguments": ["--filename", "{buffer_path}", "--indent", "2"]
+        }
+      }
+    }
   },
   "file_types": {
     "Shell Script": ["**/*sh.tmpl", "**/dot_z*"],
