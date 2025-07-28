@@ -10,7 +10,7 @@
 # - Effectively "summarizes" complex nested JSON by showing structure with minimal data
 #
 # Usage: cat data.json | jqsum
-# 
+#
 # Example - API response with large arrays:
 # Input:
 #   {
@@ -21,12 +21,12 @@
 #     ],
 #     "metadata": {"total": 3, "tags": ["user", "post", "api"]}
 #   }
-# 
+#
 # Output:
 #   {
 #     "users": [{"id": 1, "name": "Alice", "posts": [{"title": "Hello"}]}],
 #     "metadata": {"total": 3, "tags": ["user"]}
 #   }
 jqsum() {
-    jq 'def w: arrays |= .[:1]|iterables[] |= w; w'
+  jq 'def w: arrays |= .[:1]|iterables[] |= w; w'
 }

@@ -29,87 +29,87 @@
 #   - cf-vault: Cloudflare credential management tool
 #   - curl: HTTP client
 cfapi() {
-    local endpoint
-    local vault_profile="${VAULT_PROFILE:-global}"
-    local api_base_url="${CF_API_BASE_URL:-https://api.cloudflare.com/client/v4}"
-    local verbose=false
-    local curl_args=()
+  local endpoint
+  local vault_profile="${VAULT_PROFILE:-global}"
+  local api_base_url="${CF_API_BASE_URL:-https://api.cloudflare.com/client/v4}"
+  local verbose=false
+  local curl_args=()
 
-    BOLD='\033[1m'
-    RED='\033[31m'
-    GREEN='\033[32m'
-    RESET='\033[0m'
+  BOLD='\033[1m'
+  RED='\033[31m'
+  GREEN='\033[32m'
+  RESET='\033[0m'
 
-    # Parse arguments
-    while [[ $# -gt 0 ]]; do
-        case $1 in
-            --profile|-p)
-                vault_profile="$2"
-                shift 2
-                ;;
-            --verbose|-v)
-                verbose=true
-                shift
-                ;;
-            --help|-h)
-                echo "Usage: cfapi [--profile <profile>] [--verbose] <endpoint> [curl options]"
-                echo "       cfapi --help"
-                return 0
-                ;;
-            -*)
-                # Collect curl options
-                curl_args+=("$1")
-                shift
-                ;;
-            *)
-                if [[ -z "$endpoint" ]]; then
-                    endpoint="$1"
-                else
-                    curl_args+=("$1")
-                fi
-                shift
-                ;;
-        esac
-    done
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    --profile | -p)
+      vault_profile="$2"
+      shift 2
+      ;;
+    --verbose | -v)
+      verbose=true
+      shift
+      ;;
+    --help | -h)
+      echo "Usage: cfapi [--profile <profile>] [--verbose] <endpoint> [curl options]"
+      echo "       cfapi --help"
+      return 0
+      ;;
+    -*)
+      # Collect curl options
+      curl_args+=("$1")
+      shift
+      ;;
+    *)
+      if [[ -z "$endpoint" ]]; then
+        endpoint="$1"
+      else
+        curl_args+=("$1")
+      fi
+      shift
+      ;;
+    esac
+  done
 
-    # Validate required arguments
-    if [[ -z "$endpoint" ]]; then
-        echo -e "${BOLD}${RED}Error:${RESET} No endpoint specified" >&2
-        echo "Usage: cfapi [--profile <profile>] [--verbose] <endpoint> [curl options]" >&2
-        return 1
-    fi
+  # Validate required arguments
+  if [[ -z "$endpoint" ]]; then
+    echo -e "${BOLD}${RED}Error:${RESET} No endpoint specified" >&2
+    echo "Usage: cfapi [--profile <profile>] [--verbose] <endpoint> [curl options]" >&2
+    return 1
+  fi
 
-    # Check if cf-vault is available
-    if ! command -v cf-vault >/dev/null 2>&1; then
-        echo -e "${BOLD}${RED}Error:${RESET} cf-vault command not found" >&2
-        return 1
-    fi
+  # Check if cf-vault is available
+  if ! command -v cf-vault >/dev/null 2>&1; then
+    echo -e "${BOLD}${RED}Error:${RESET} cf-vault command not found" >&2
+    return 1
+  fi
 
-    echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
+  echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
 
-    # Check if we're already in a cf-vault session
-    if [[ -n "$CLOUDFLARE_EMAIL" && -n "$CLOUDFLARE_API_KEY" ]]; then
-        # Verify the session profile matches the requested profile
-        if [[ "$CLOUDFLARE_VAULT_SESSION" == "$vault_profile" ]]; then
-            [[ "$verbose" == true ]] && echo -e "Already in correct vault session ${BOLD}${GREEN}$vault_profile${RESET}, using existing credentials" >&2
+  # Check if we're already in a cf-vault session
+  if [[ -n "$CLOUDFLARE_EMAIL" && -n "$CLOUDFLARE_API_KEY" ]]; then
+    # Verify the session profile matches the requested profile
+    if [[ "$CLOUDFLARE_VAULT_SESSION" == "$vault_profile" ]]; then
+      [[ "$verbose" == true ]] && echo -e "Already in correct vault session ${BOLD}${GREEN}$vault_profile${RESET}, using existing credentials" >&2
 
-            # Use existing session credentials
-            curl -s "$api_base_url/$endpoint" \
-            -H "x-auth-email:$CLOUDFLARE_EMAIL" \
-            -H "x-auth-key:$CLOUDFLARE_API_KEY" \
-            "${curl_args[@]}"
-        else
-            echo -e "${BOLD}${RED}Error:${RESET} Already in vault session for profile ${BOLD}${RED}$CLOUDFLARE_VAULT_SESSION${RESET}, but need profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
-            return 1
-        fi
+      # Use existing session credentials
+      curl -s "$api_base_url/$endpoint" \
+        -H "x-auth-email:$CLOUDFLARE_EMAIL" \
+        -H "x-auth-key:$CLOUDFLARE_API_KEY" \
+        "${curl_args[@]}"
     else
-        [[ "$verbose" == true ]] && echo -e "No active session, starting ${BOLD}cf-vault exec${RESET} with profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
+      echo -e "${BOLD}${RED}Error:${RESET} Already in vault session for profile ${BOLD}${RED}$CLOUDFLARE_VAULT_SESSION${RESET}, but need profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
+      return 1
+    fi
+  else
+    [[ "$verbose" == true ]] && echo -e "No active session, starting ${BOLD}cf-vault exec${RESET} with profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
 
-        # Start new cf-vault session
-        cf-vault exec "$vault_profile" -- \
-        bash -c "curl -s \"$api_base_url/$endpoint\" \
+    # Start new cf-vault session
+    cf-vault exec "$vault_profile" -- \
+      bash -c "curl -s \"$api_base_url/$endpoint\" \
         -H \"x-auth-email:\$CLOUDFLARE_EMAIL\" \
         -H \"x-auth-key:\$CLOUDFLARE_API_KEY\" \
         $(printf '%q ' "${curl_args[@]}")"
-    fi
+  fi
 }

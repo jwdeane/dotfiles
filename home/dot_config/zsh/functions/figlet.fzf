@@ -28,10 +28,10 @@ PREVIEW='for f in {+}; do figlet -f "$f" -w "$FZF_PREVIEW_COLUMNS" {q}; echo; do
 
 figlist | sed '1,/Figlet fonts/d; /Figlet control/,$d' |
   fzf --query "${*:-hello}" --disabled --multi --reverse \
-      --with-shell 'bash -c' \
-      --tmux 100% \
-      --preview 'for f in {+}; do figlet -f "$f" -w "$FZF_PREVIEW_COLUMNS" {q}; echo; done' \
-      --preview-window 70% \
-      --bind 'enter:become:
+    --with-shell 'bash -c' \
+    --tmux 100% \
+    --preview 'for f in {+}; do figlet -f "$f" -w "$FZF_PREVIEW_COLUMNS" {q}; echo; done' \
+    --preview-window 70% \
+    --bind 'enter:become:
         for f in {+}; do figlet -f "$f" -w $(tput cols) {q}; done | pbcopy;
         echo "Copied to clipboard"'
