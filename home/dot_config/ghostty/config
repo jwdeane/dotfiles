@@ -1,0 +1,10 @@
+theme = catppuccin-mocha
+
+macos-option-as-alt = true
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs
+
+window-title-font-family = Departure Mono
+
+keybind = global:super+shift+grave_accent=toggle_quick_terminal
+keybind = shift+enter=text:\n
