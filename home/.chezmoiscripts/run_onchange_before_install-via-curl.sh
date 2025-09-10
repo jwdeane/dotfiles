@@ -17,3 +17,11 @@ if ! command -v ruff &>/dev/null; then
 else
   echo "ruff is already installed"
 fi
+
+# Install bun if not already present
+if ! command -v bun &>/dev/null; then
+  echo "Installing bun..."
+  curl -fsSL https://bun.sh/install | bash
+else
+  echo "bun is already installed"
+fi
