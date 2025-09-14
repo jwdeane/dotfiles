@@ -1,0 +1,41 @@
+# zid - Cloudflare zone id lookup
+#
+# Execute Cloudflare API calls authenticated via a cf-vault profile.
+# Automatically manages vault sessions and only authenticates when necessary.
+#
+# Usage:
+#   zid <zone_name>
+#
+# Examples:
+#   zid jwdeane.com                                  # print zone_id
+#
+# Features:
+#   - Leverage cfapi to lookup an active zone_id by domain name
+#
+# Dependencies:
+#   - cfapi: Cloudflare API request wrapper
+#   - curl: HTTP client
+zid() {
+  local zone_name
+
+  BOLD='\033[1m'
+  RED='\033[31m'
+  GREEN='\033[32m'
+  RESET='\033[0m'
+
+  zone_name=$1
+
+  # Parse arguments
+  # TODO: ensure single argument presented for zone_name
+
+  # Ensure cfapi is available
+  if ! command -v cfapi >/dev/null 2>&1; then
+    echo -e "${BOLD}${RED}Error:${RESET} cfapi command not found" >&2
+    return 1
+  fi
+
+  echo -e "Looking up zone_id for: ${BOLD}${GREEN}$zone_name${RESET}" >&2
+
+  zone_name=$(cfapi "zones?name=$zone_name&status=active" | jq -r '.result[].id')
+  printf "$zone_name"
+}
