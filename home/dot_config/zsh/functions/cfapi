@@ -100,23 +100,27 @@ cfapi() {
   
   [[ "$verbose" == true ]] && echo -e "Authentication type: ${BOLD}${GREEN}$auth_type${RESET}" >&2
 
+  # Set authentication headers based on profile type
+  local curl_auth_headers_escaped=()
+  local curl_auth_headers_direct=()
+  if [[ "$auth_type" == "api_token" ]]; then
+    curl_auth_headers_escaped=(-H "authorization: bearer \$CLOUDFLARE_API_TOKEN")
+    curl_auth_headers_direct=(-H "authorization: bearer $CLOUDFLARE_API_TOKEN")
+  else
+    curl_auth_headers_escaped=(-H "x-auth-email:\$CLOUDFLARE_EMAIL" -H "x-auth-key:\$CLOUDFLARE_API_KEY")
+    curl_auth_headers_direct=(-H "x-auth-email:$CLOUDFLARE_EMAIL" -H "x-auth-key:$CLOUDFLARE_API_KEY")
+  fi
+
   # Check if we're already in a cf-vault session
   if [[ -n "$CLOUDFLARE_EMAIL" && (-n "$CLOUDFLARE_API_KEY" || -n "$CLOUDFLARE_API_TOKEN") ]]; then
     # Verify the session profile matches the requested profile
     if [[ "$CLOUDFLARE_VAULT_SESSION" == "$vault_profile" ]]; then
       [[ "$verbose" == true ]] && echo -e "Already in correct vault session ${BOLD}${GREEN}$vault_profile${RESET}, using existing credentials" >&2
 
-      # Use existing session credentials with appropriate auth method
-      if [[ "$auth_type" == "api_token" ]]; then
-        curl -s "$api_base_url/$endpoint" \
-          -H "authorization: bearer $CLOUDFLARE_API_TOKEN" \
-          "${curl_args[@]}"
-      else
-        curl -s "$api_base_url/$endpoint" \
-          -H "x-auth-email:$CLOUDFLARE_EMAIL" \
-          -H "x-auth-key:$CLOUDFLARE_API_KEY" \
-          "${curl_args[@]}"
-      fi
+      # Use existing session credentials
+      curl -s "$api_base_url/$endpoint" \
+        "${curl_auth_headers_direct[@]}" \
+        "${curl_args[@]}"
     else
       echo -e "${BOLD}${RED}Error:${RESET} Already in vault session for profile ${BOLD}${RED}$CLOUDFLARE_VAULT_SESSION${RESET}, but need profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
       return 1
@@ -124,18 +128,10 @@ cfapi() {
   else
     [[ "$verbose" == true ]] && echo -e "No active session, starting ${BOLD}cf-vault exec${RESET} with profile ${BOLD}${GREEN}$vault_profile${RESET}" >&2
 
-    # Start new cf-vault session with appropriate auth method
-    if [[ "$auth_type" == "api_token" ]]; then
-      cf-vault exec "$vault_profile" -- \
-        bash -c "curl -s \"$api_base_url/$endpoint\" \
-          -H \"authorization: bearer \$CLOUDFLARE_API_TOKEN\" \
-          $(printf '%q ' "${curl_args[@]}")"
-    else
-      cf-vault exec "$vault_profile" -- \
-        bash -c "curl -s \"$api_base_url/$endpoint\" \
-          -H \"x-auth-email:\$CLOUDFLARE_EMAIL\" \
-          -H \"x-auth-key:\$CLOUDFLARE_API_KEY\" \
-          $(printf '%q ' "${curl_args[@]}")"
-    fi
+    # Start new cf-vault session
+    cf-vault exec "$vault_profile" -- \
+      bash -c "curl -s \"$api_base_url/$endpoint\" \
+        ${curl_auth_headers_escaped[*]} \
+        $(printf '%q ' "${curl_args[@]}")"
   fi
 }
