@@ -14,28 +14,75 @@
 #
 # Dependencies:
 #   - cfapi: Cloudflare API request wrapper
-#   - curl: HTTP client
+#   - jq: JSON parser
 zid() {
+  local vault_profile="${CLOUDFLARE_VAULT_SESSION:-global}"
   local zone_name
+  local zone_id
+  local response
 
   BOLD='\033[1m'
   RED='\033[31m'
   GREEN='\033[32m'
   RESET='\033[0m'
 
-  zone_name=$1
-
   # Parse arguments
-  # TODO: ensure single argument presented for zone_name
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    --verbose | -v)
+      verbose=true
+      shift
+      ;;
+    --help | -h)
+      echo "Usage: zid <zone_name>"
+      echo "       zid --help"
+      return 0
+      ;;
+    *)
+      if [[ -z "$zone_name" ]]; then
+        zone_name="$1"
+      else
+        echo -e "${BOLD}${RED}Error:${RESET} too many arguments" >&2
+        printf "Usage: zid <zone_name>\n" >&2
+        return 1
+      fi
+      shift
+      ;;
+    esac
+  done
 
-  # Ensure cfapi is available
+  if [[ -z "$zone_name" ]]; then
+    echo -e "${BOLD}${RED}Error:${RESET} missing zone_name" >&2
+    printf "Usage: zid <zone_name>\n" >&2
+    return 1
+  fi
+
+  # Ensure dependencies are available
   if ! command -v cfapi >/dev/null 2>&1; then
     echo -e "${BOLD}${RED}Error:${RESET} cfapi command not found" >&2
     return 1
   fi
 
-  echo -e "Looking up zone_id for: ${BOLD}${GREEN}$zone_name${RESET}" >&2
+  if ! command -v jq >/dev/null 2>&1; then
+    echo -e "${BOLD}${RED}Error:${RESET} jq command not found" >&2
+    return 1
+  fi
 
-  zone_name=$(cfapi "zones?name=$zone_name&status=active" | jq -r '.result[].id')
-  printf "$zone_name"
+  [[ "$verbose" == true ]] && echo -e "Looking up zone_id for: ${BOLD}${GREEN}$zone_name${RESET}" >&2
+
+  # Perform lookup
+  if ! response=$(cfapi "zones?name=$zone_name&status=active" --profile "$vault_profile"); then
+    echo -e "${BOLD}${RED}Error:${RESET} cfapi request failed" >&2
+    return 1
+  fi
+
+  # Extract zone_id from response
+  zone_id=$(printf '%s' "$response" | jq -r ' if (.success and (.result|length>0)) then .result[0].id else "" end')
+
+  if [[ -z "$zone_id" ]]; then
+    echo -e "${BOLD}${RED}Error:${RESET} no active zone_id found for '$zone_name'" >&2
+    return 1
+  fi
+
+  printf '%s\n' "$zone_id"
 }
