@@ -30,7 +30,7 @@
 #   - curl: HTTP client
 cfapi() {
   local endpoint
-  local vault_profile="${VAULT_PROFILE:-global}"
+  local vault_profile="${CLOUDFLARE_VAULT_SESSION:-global}"
   local api_base_url="${CF_API_BASE_URL:-https://api.cloudflare.com/client/v4}"
   local verbose=false
   local curl_args=()
@@ -94,7 +94,7 @@ cfapi() {
     return 1
   fi
 
-  echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
+  [[ "$verbose" == true ]] && echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
 
   [[ "$verbose" == true ]] && echo -e "Authentication type: ${BOLD}${GREEN}$auth_type${RESET}" >&2
 
