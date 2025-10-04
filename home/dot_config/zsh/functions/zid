@@ -20,6 +20,7 @@ zid() {
   local zone_name
   local zone_id
   local response
+  local verbose=false
 
   BOLD='\033[1m'
   RED='\033[31m'
