@@ -90,7 +90,9 @@ cfapi() {
   auth_type=$(cf-vault list 2>/dev/null | awk -v profile="$vault_profile" '$1 == profile {print $2}')
 
   if [[ -z "$auth_type" ]]; then
-    echo -e "${BOLD}${RED}Error:${RESET} Profile '$vault_profile' not found in cf-vault" >&2
+    echo -e "${BOLD}${RED}Error:${RESET} Profile ${BOLD}${GREEN}$vault_profile${RESET} not found in cf-vault" >&2
+    echo "Available profiles:" >&2
+    cf-vault list >&2
     return 1
   fi
 

@@ -79,7 +79,7 @@ zid() {
 
   # Validate that the requested profile exists
   if ! cf-vault list | awk 'NR>1 {print $1}' | grep -q "^$vault_profile$"; then
-    echo -e "${BOLD}${RED}Error:${RESET} profile '$vault_profile' not found" >&2
+    echo -e "${BOLD}${RED}Error:${RESET} profile ${BOLD}${GREEN}$vault_profile${RESET} not found in cf-vault" >&2
     echo "Available profiles:" >&2
     cf-vault list >&2
     return 1
