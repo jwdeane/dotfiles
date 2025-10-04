@@ -94,7 +94,7 @@ cfapi() {
     return 1
   fi
 
-  [[ "$verbose" == true ]] && echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
+  echo -e "Using profile: ${BOLD}${GREEN}$vault_profile${RESET}" >&2
 
   [[ "$verbose" == true ]] && echo -e "Authentication type: ${BOLD}${GREEN}$auth_type${RESET}" >&2
 
