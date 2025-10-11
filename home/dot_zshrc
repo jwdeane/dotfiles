@@ -100,6 +100,11 @@ if command -v mise >/dev/null 2>&1; then
   export MISE_ENV_FILE=.env
 fi
 
+#--rust/cargo
+if [ -f "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env"
+fi
+
 #--uv
 if command -v uv >/dev/null 2>&1; then
   eval "$(uv generate-shell-completion zsh)"
