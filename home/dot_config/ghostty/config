@@ -1,9 +1,18 @@
 theme = Catppuccin Mocha
 
+adjust-cursor-thickness = 2
+cursor-style = block
+custom-shader = cursor_blaze.glsl
+
 macos-option-as-alt = true
 macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = tabs
 
+quick-terminal-animation-duration = 0
+
+window-padding-balance = true
+window-padding-x = 14
+window-padding-y = 14,7
 window-title-font-family = Departure Mono
 
 keybind = global:super+shift+grave_accent=toggle_quick_terminal
