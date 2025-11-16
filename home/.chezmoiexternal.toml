@@ -6,3 +6,8 @@ url = "https://github.com/nk9/just_sublime.git"
 [".config/bat/themes/Catppuccin Mocha.tmTheme"]
 type = "file"
 url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme"
+
+["scripts"]
+type = "git-repo"
+url = "https://github.com/jwdeane/scripts.git"
+refreshPeriod = "168h"
