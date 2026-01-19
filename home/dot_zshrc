@@ -50,9 +50,11 @@ if [[ -f "$HOME/.config/cf-vault/cf-vault.sh" ]]; then
   source "$HOME/.config/cf-vault/cf-vault.sh"
 fi
 
+#--go
+export GOPATH="$HOME/go"
+
 #--history
 HISTFILE="$HOME/.zsh_history"
-HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=50000
 SAVEHIST=50000
 setopt extended_history       # record timestamps in HISTFILE
@@ -68,8 +70,9 @@ if [[ -f "$HOME/.config/fzf/fzf.sh" ]]; then
 fi
 
 #--1password
-if [[ -S "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" ]]; then
-  export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+local op_sock="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+if [[ -S "$op_sock" ]]; then
+  export SSH_AUTH_SOCK="$op_sock"
 fi
 # FIXME:
 #   commented out `op completion` as with this in place, the terminal prompts to allow disk access EVERY TIME it's opened
@@ -93,7 +96,7 @@ if command -v mise >/dev/null 2>&1; then
 fi
 
 #--rust/cargo
-if [ -f "$HOME/.cargo/env" ]; then
+if [[ -f "$HOME/.cargo/env" ]]; then
   source "$HOME/.cargo/env"
 fi
 

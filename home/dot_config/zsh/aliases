@@ -69,15 +69,6 @@ alias jl="just -g --list --list-submodules"
 alias nv="nvim"
 alias vim="nvim"
 alias t="tree -L"
-# python
-#--unlikely to be used since uv now preferred
-alias py="python"
-alias pym="python -m"
-alias pyv="python -m venv .venv"
-alias pya="source .venv/bin/activate"
-alias pyp="python -m pip"
-alias pup="python -m pip install --upgrade pip"
-alias pfr="python -m pip freeze > requirements.txt"
 # rclone
 alias r2="rclone"
 alias r2l="rclone ls"
