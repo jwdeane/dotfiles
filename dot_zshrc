@@ -1,0 +1,125 @@
+export EDITOR=nvim
+export CHEZMOI_SOURCE_DIR="$HOME/.local/share/chezmoi/home"
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# ensure no (f)path duplicates
+typeset -gU path fpath
+
+path=(
+  $HOME/{,s}bin(N)
+  $HOME/.local/{,s}bin(N)
+  $HOME/scripts(N)
+  $HOME/go/bin(N)
+  $HOME/.bun/bin(N)
+  $HOME/.deno/bin(N)
+  $HOME/.config/volta/bin(N)
+  /opt/{homebrew,local}/{,s}bin(N)
+  /usr/local/{,s}bin(N)
+  $path
+)
+
+fpath=(
+  $HOMEBREW_PREFIX/share/zsh/site-functions
+  ~/.config/zsh/completions
+  ~/.config/zsh/functions
+  $fpath
+)
+
+autoload -Uz compinit && compinit
+
+# autoload custom functions
+if [[ -d "$HOME/.config/zsh/functions" ]]; then
+  for fn in "$HOME/.config/zsh/functions"/*(N:t); do
+    autoload -Uz "$fn"
+  done
+fi
+
+#--aliases
+if [[ -f "$HOME/.config/zsh/aliases" ]]; then
+  source "$HOME/.config/zsh/aliases"
+fi
+
+#--bun
+if [[ -s "$HOME/.bun/_bun" ]]; then
+  source "$HOME/.bun/_bun"
+  export BUN_INSTALL="$HOME/.bun"
+fi
+
+#--cf-vault
+if [[ -f "$HOME/.config/cf-vault/cf-vault.sh" ]]; then
+  source "$HOME/.config/cf-vault/cf-vault.sh"
+fi
+
+#--go
+export GOPATH="$HOME/go"
+
+#--history
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt extended_history       # record timestamps in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first
+setopt hist_ignore_dups       # ignore duplicated commands
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command before running
+setopt share_history          # share history between sessions
+
+#--fzf
+if [[ -f "$HOME/.config/fzf/fzf.sh" ]]; then
+  source "$HOME/.config/fzf/fzf.sh"
+fi
+
+#--1password
+local op_sock="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+if [[ -S "$op_sock" ]]; then
+  export SSH_AUTH_SOCK="$op_sock"
+fi
+# FIXME:
+#   commented out `op completion` as with this in place, the terminal prompts to allow disk access EVERY TIME it's opened
+#   …and it's annoying. This looks to be due to macos security "protecting" the ~/Library/Group Containers folder.
+#   Full Disk Access is NOT the right way to solve this (System Preferences > Security & Privacy > Privacy).
+#   Switching to SSH_AUTH_SOCK, instead of ~/.1password/agent.sock also doesn't help.
+# eval "$(op completion zsh)"
+# compdef _op op
+
+#--antidote
+if [[ -f "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh" ]]; then
+  source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
+  antidote load
+fi
+
+#--mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+  # autoload .env
+  export MISE_ENV_FILE=.env
+fi
+
+#--rust/cargo
+if [[ -f "$HOME/.cargo/env" ]]; then
+  source "$HOME/.cargo/env"
+fi
+
+#--try
+if command -v try >/dev/null 2>&1; then
+  eval "$(try init ~/dev/tries)"
+fi
+
+#--uv
+if command -v uv >/dev/null 2>&1; then
+  eval "$(uv generate-shell-completion zsh)"
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
+
+#--zoxide
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+#--END
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# opencode
+export PATH=/Users/jd/.opencode/bin:$PATH

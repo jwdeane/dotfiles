@@ -1,0 +1,71 @@
+{
+  "version": 3,
+  "skills": {
+    "cloudflare": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare/SKILL.md",
+      "skillFolderHash": "208429c45e30cbb86e16caddb63d1862c45a0b9f",
+      "installedAt": "2026-02-23T10:00:51.054Z",
+      "updatedAt": "2026-02-23T10:00:51.054Z"
+    },
+    "workers-best-practices": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/workers-best-practices/SKILL.md",
+      "skillFolderHash": "7dd384e79c76d3e388dfe53e12e93642679ff1fd",
+      "installedAt": "2026-02-23T10:00:51.100Z",
+      "updatedAt": "2026-02-23T10:00:51.100Z"
+    },
+    "logging-best-practices": {
+      "source": "boristane/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/boristane/agent-skills.git",
+      "skillPath": "skills/logging-best-practices/SKILL.md",
+      "skillFolderHash": "075c83b8bf75e6f7b7ac97b8cf752f819da7cdb7",
+      "installedAt": "2026-02-23T11:58:53.894Z",
+      "updatedAt": "2026-02-23T11:58:53.894Z"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "skillFolderHash": "a01fbe3fa7f17f64173bd4fdcfecea86a3fd664c",
+      "installedAt": "2026-02-23T12:00:09.132Z",
+      "updatedAt": "2026-02-23T12:00:09.132Z"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "skillFolderHash": "928950704df8a8b885c03de5da626331e6f29cf8",
+      "installedAt": "2026-02-23T12:04:16.561Z",
+      "updatedAt": "2026-02-23T12:04:16.561Z"
+    },
+    "sharp-edges": {
+      "source": "trailofbits/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/trailofbits/skills.git",
+      "skillPath": "plugins/sharp-edges/skills/sharp-edges/SKILL.md",
+      "skillFolderHash": "a9b4ec1cd78f34cc5ad04dcd055ac081c47f2d02",
+      "installedAt": "2026-02-23T12:09:12.751Z",
+      "updatedAt": "2026-02-23T12:09:12.751Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode"
+  ]
+}

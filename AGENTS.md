@@ -26,6 +26,7 @@ shfmt -d <script>            # Check shell formatting
 ### No Build/Test Framework
 - This repository has **no unit tests, no build process, no CI/CD linting**
 - Validation happens through `chezmoi apply --dry-run`
+- Note: `--dry-run` does not execute scripts
 - Manual testing is required for scripts
 - Changes should be tested before applying to the system
 
@@ -39,11 +40,14 @@ shfmt -d <script>            # Check shell formatting
 set -euo pipefail
 ```
 
-**Script Naming**: Place in `home/.chezmoiscripts/` with proper prefixes
-- `run_once_*` — Runs once per machine
-- `run_onchange_*` — Runs when content changes
-- `run_onchange_before_*` — Before dotfile application (e.g., package install)
-- `run_onchange_after_*` — After dotfile application (e.g., system config)
+**Script Naming**: Place in `.chezmoiscripts/` with `run_` prefixes
+- `run_*` — Runs on every `chezmoi apply`
+- `run_onchange_*` — Runs only when rendered content changes
+- `run_once_*` — Runs once per unique script content
+- Use `before_` / `after_` attributes in the filename to force phase, e.g. `run_onchange_before_bootstrap.sh`
+- Scripts run in alphabetical order
+- Files that do not start with `run_` are not executed
+- Scripts do not need the executable bit set in source
 
 **Idempotency**: All scripts must be safe to run multiple times
 - Check if something exists before creating it
@@ -66,7 +70,7 @@ set -euo pipefail
 - Variables: `{{ .email }}`, `{{ .hostname }}`
 - Conditionals: `{{ if .set_hostname }}...{{ end }}`
 - Functions: `{{ onepasswordRead "op://..." }}`
-- Define variables in `home/.chezmoi.toml.tmpl`
+- Define variables in `.chezmoi.toml.tmpl`
 
 ### Security & Secrets
 
@@ -84,30 +88,20 @@ set -euo pipefail
 
 ### Homebrew Package Management
 
-Edit `home/.chezmoiscripts/run_onchange_before_install-packages.sh.tmpl`
+Edit `dot_Brewfile`
 
-**Format**: Define arrays in Go template, use `brew bundle`
-```bash
-{{ if eq .chezmoi.os "darwin" }}
-taps:
-  - tap1
-  - tap2
-brews:
-  - ansible
-  - awscli
-  - bat
-casks:
-  - arc
-  - ghostty
-  - zed
-{{ end }}
+**Format**: Use Homebrew Bundle syntax
+```ruby
+tap "owner/repo"
+brew "ansible"
+cask "ghostty"
 ```
 
 **Rules**
-- Keep each list sorted alphabetically
-- Add to `$taps` for Homebrew taps
-- Add to `$brews` for CLI tools
-- Add to `$casks` for GUI applications
+- Keep each section sorted alphabetically
+- Use `tap` entries for Homebrew taps
+- Use `brew` entries for CLI tools
+- Use `cask` entries for GUI applications
 - Test with `chezmoi apply --dry-run`
 
 ### Imports & Dependencies
@@ -135,7 +129,7 @@ casks:
 - Clear function definitions
 
 **Configuration Files**
-- TOML: `home/dot_config/starship.toml`
+- TOML: `dot_config/starship.toml`
 - YAML: Various config files
 - JSON: Editor configs (Zed, VS Code)
 - Keep organized by application
@@ -191,8 +185,8 @@ result=$(command) || {
 ### When Modifying Scripts
 - Ensure scripts are idempotent (safe to run repeatedly)
 - Use `set -euo pipefail` for error handling
-- Consider execution order (before vs. after)
-- Remember `run_onchange_*` runs when content changes
+- Consider execution order (default vs `before_` vs `after_`)
+- Remember `run_onchange_*` and `run_once_*` are stateful by rendered content
 
 ### Common Patterns
 
@@ -219,17 +213,16 @@ fi
 ## Key Architecture Points
 
 **Directory Structure**
-- `home/` — Managed dotfiles (files become ~/.config, ~/, etc.)
-- `home/.chezmoiscripts/` — Automation scripts with execution order
-- `home/dot_config/` — Target state of ~/.config
-- `.chezmoiroot` — Indicates dotfiles are in home/
+- Repository root — Managed dotfiles (files become ~/.config, ~/, etc.)
+- `.chezmoiscripts/` — Automation scripts with execution order
+- `dot_config/` — Target state of ~/.config
 
 **Execution Phases**
-1. `run_onchange_before_*` scripts execute
-2. Dotfiles are applied to the system
-3. `run_onchange_after_*` scripts execute
+1. `run_*_before_*` scripts execute first
+2. Normal source entries are processed in chezmoi application order (including plain `run_*`, `run_onchange_*`, and `run_once_*` scripts)
+3. `run_*_after_*` scripts execute last
 
-**Template Variables** (from `home/.chezmoi.toml.tmpl`)
+**Template Variables** (from `.chezmoi.toml.tmpl`)
 - `.email` — User email
 - `.hostname` — System hostname
 - `.set_hostname` — Whether to set hostname
