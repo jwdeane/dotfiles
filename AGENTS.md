@@ -188,6 +188,11 @@ result=$(command) || {
 - Consider execution order (default vs `before_` vs `after_`)
 - Remember `run_onchange_*` and `run_once_*` are stateful by rendered content
 
+### When Using Chezmoi Hooks
+- Hooks are configured in `.chezmoi.toml.tmpl` under `[hooks.*]`
+- Hooks run at specific chezmoi lifecycle points and are distinct from `.chezmoiscripts/` `run_*` scripts
+- This repo uses `hooks.read-source-state.pre` to run `.install-password-manager.sh` so 1Password and `op` are available early
+
 ### Common Patterns
 
 **Check if something exists**

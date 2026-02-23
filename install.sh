@@ -16,12 +16,4 @@ if ! command -v chezmoi &>/dev/null; then
 	brew install chezmoi
 fi
 
-if ! brew list --cask 1password &>/dev/null; then
-	brew install --cask 1password
-fi
-
-if ! command -v op &>/dev/null; then
-	brew install --cask 1password-cli
-fi
-
 exec chezmoi init --apply jwdeane
