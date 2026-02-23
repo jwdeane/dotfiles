@@ -43,6 +43,8 @@ shellcheck path/to/script.sh
 shfmt -d path/to/script.sh
 ```
 
+`shfmt -d` checks formatting by printing a diff. To format in place, run `shfmt -w path/to/script.sh`.
+
 ## Layout
 
 - Repository root is the chezmoi source root (no `home/` subdirectory).
