@@ -1,0 +1,27 @@
+# install-fe-skills - Install frontend OpenCode skills to current project
+#
+# Usage:
+#   install-fe-skills
+#
+# Dependencies:
+# - npx: Node.js package runner
+# - skills: OpenCode skills CLI (run via npx)
+install-fe-skills() {
+  local skills=(
+    "vercel-labs/agent-browser@agent-browser"
+    "anthropics/skills@frontend-design"
+    "remotion-dev/skills@remotion-best-practices"
+    "vercel-labs/agent-skills@vercel-react-best-practices"
+    "vercel-labs/agent-skills@web-design-guidelines"
+  )
+
+  for skill in "${skills[@]}"; do
+    echo "Installing $skill..."
+    if ! npx skills add "$skill" -a opencode -y; then
+      echo "Failed to install $skill" >&2
+      return 1
+    fi
+  done
+
+  echo "All frontend skills installed"
+}
